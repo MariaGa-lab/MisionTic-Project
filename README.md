@@ -8,6 +8,6 @@ Repositorio del proyecto.
 Integrantes del grupo:
 - Henry Valderrama
 - Gabriela Morera
-- Laura Lasso
+- Laura Lasso 
 - Laura Sofía Iriarte
 - Alejandro Restrepo A
