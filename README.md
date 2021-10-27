@@ -1,8 +1,7 @@
-# Repositorio GitHub
+# Repositorio GitHub Nivelacion
 
 **Numero del Equipo en WP : **Grupo 6 - Des. Web C-3
 **Nombre de los integrantes:**
-- Laura Daniela Lasso Arciniegas
 - Henry Giovanny Valderrama Atuesta
 - Gabriela Morera Murcia
 - 	Laura Sofía Iriarte Vargas
