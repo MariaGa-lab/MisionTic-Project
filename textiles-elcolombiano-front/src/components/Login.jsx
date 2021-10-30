@@ -9,7 +9,7 @@ export function Login() {
         <div className="card-body">
           <div>
             <b>Iniciar sesión</b>
-            <p> Bienvenido a nuestra plataforma virtual </p>
+            <h1> Bienvenido a textiles elColombiano </h1>
           </div>
           <button
             variant="contained"
