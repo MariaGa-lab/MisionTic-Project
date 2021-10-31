@@ -1,9 +1,13 @@
 //importando paquetes
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 //inicializando nuestra aplicación de express
 const app = express();
+
+//usando cors para peticiones de origen cruzado para recursos compartidos
+app.use(cors());
 
 //configuramos nuestra API para trabajar con objetos tipo JSON en las peticiones HTTP
 app.use(express.json())
