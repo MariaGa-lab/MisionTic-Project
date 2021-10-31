@@ -68,7 +68,7 @@ function FormProducts() {
                 <div className="card">
                     <h5 className="card-header">Registrar nuevo producto</h5>
                     <div className="card-body">
-                        <form>
+                        <form onSubmit={agregarProducto}>
                             <div className="row">
                                 <div className="col-md-6 mb-3">
                                     <label className="form-label">Nombre producto</label>
@@ -91,7 +91,7 @@ function FormProducts() {
                                     <label className="form-check-label" onChange={guardarArchivo}>Disponible</label>
                                 </div>
                             </div>
-                            <button type="submit" className="btn btn-primary" onChange={agregarProducto}>Guardar</button>
+                            <button type="submit" className="btn btn-primary">Guardar</button>
                         </form>
                     </div>
                 </div>

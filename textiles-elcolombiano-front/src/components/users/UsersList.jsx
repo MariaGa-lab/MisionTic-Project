@@ -57,3 +57,5 @@ export function UsersList() {
     </div>
   )
 }
+
+export default UsersList;

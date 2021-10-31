@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const productsUrl = "http://localhost:3000/usuarios";
+const productsUrl = "http://localhost:3000/productos";
 
 export const getProduct = async (id) => {
     return await axios.get(`${productsUrl}/${id}`);
