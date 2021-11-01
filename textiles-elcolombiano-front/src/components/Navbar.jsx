@@ -33,6 +33,9 @@ function Navbar() {
           <Link to="/login" className="link">
             <button className="btn btn-outline-info nav-link" href="#!">Login</button>
           </Link>
+          <Link to="/logout" className="link">
+            <button className="btn btn-outline-info nav-link" href="#!">Logout</button>
+          </Link>
         </form>
       </nav>
     </div>
