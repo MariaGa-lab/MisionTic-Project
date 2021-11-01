@@ -11,7 +11,7 @@ function FormProducts(props) {
     const [ producto, guardarProducto ] = useState({
         nombre: '',
         precio: '',
-        imagen : ''
+        descripcion : ''
     });
 
 
@@ -34,7 +34,7 @@ function FormProducts(props) {
         const formData = new FormData();
         formData.append('nombre', producto.nombre);
         formData.append('precio', producto.precio);
-        formData.append('imagen', producto.descripcion);
+        formData.append('descripcion', producto.descripcion);
 
         // almacenarlo en la BD
         try {

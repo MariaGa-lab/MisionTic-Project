@@ -1,7 +1,14 @@
+import React from 'react';
+import { useAuth0 } from "@auth0/auth0-react"
+import { LoginButton } from "../LoginA";
+import { LogoutButton } from "../Logout";
+import { Profile } from "../Profile";
+
 import '../App.css';
 
 
 export function Login() {
+  const { isAuthenticated } = useAuth0();
 
   return (
     <div className="App container">
@@ -11,19 +18,14 @@ export function Login() {
             <b>Iniciar sesión</b>
             <h1> Bienvenido a textiles elColombiano </h1>
           </div>
-          <button
-            variant="contained"
-            color="inherit"
-            startIcon={
-              <svg
-                src={
-                  "https://cdn.icon-icons.com/icons2/836/PNG/512/Google_icon-icons.com_66793.png"
-                }
-              />
-            }
-          >
-            Iniciar Con Google
-          </button>
+          {isAuthenticated ? (
+          <>
+            < Profile />
+            < LogoutButton />
+          </>
+          ) : (
+             < LoginButton />
+           )}
         </div>
       </div>
     </div>

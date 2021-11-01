@@ -10,7 +10,7 @@ function FormProducts() {
         precio: ''
     });
     // archivo = state, guardarArchivo = setState
-    const [archivo, guardarArchivo] = useState('');
+    const [guardarArchivo] = useState('');
 
     // almacena el nuevo producto en la base de datos.
     const agregarProducto = async e => {
@@ -20,7 +20,6 @@ function FormProducts() {
         const formData = new FormData();
         formData.append('nombre', producto.nombre);
         formData.append('precio', producto.precio);
-        formData.append('imagen', archivo);
 
         // almacenarlo en la BD
         try {
