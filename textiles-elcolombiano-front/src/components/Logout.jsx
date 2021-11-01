@@ -16,7 +16,7 @@ export function Logout() {
         <div className="card-body">
           <div>
             <b>Cerrar sesión</b>
-            <h1> Gracias por haber venido a textiles elColombiano </h1>
+            <h1> Gracias por haber visitado a textiles elColombiano </h1>
           </div>
           {isAuthenticated ? (
           <>
