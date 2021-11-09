@@ -11,7 +11,12 @@ export const getProducts = async () => {
 }
 
 export const addProduct = async (product) => {
-    return await axios.post(`${productsUrl}/`);
+    return await axios.post(`${productsUrl}/`, product, {
+        headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    });
 }
 
 export const deleteProduct = async (id) => {
@@ -19,5 +24,10 @@ export const deleteProduct = async (id) => {
 }
 
 export const editProduct = async (product) => {
-    return await axios.put(`${productsUrl}/${product._id}`, product);
+
+    return await axios.patch(`${productsUrl}/${product._id}`, product, {
+        headers: {
+            "Content-type": "application/json"
+        }
+    });
 }

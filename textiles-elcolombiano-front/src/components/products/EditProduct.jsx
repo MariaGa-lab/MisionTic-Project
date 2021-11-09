@@ -1,122 +1,146 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import { editProduct, getProduct } from '../../services/ProductService';
+import { useHistory, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import clienteAxios from '../../config/axios';
 
-function FormProducts(props) {
-
-    // obtener el ID
-    const { id } = props.match.params;
+function EditProduct(props) {
 
     // producto = state, y funcion para actualizar
-    const [ producto, guardarProducto ] = useState({
-        nombre: '',
-        precio: '',
-        descripcion : ''
+    const [producto, guardarProducto] = useState({
+        nameProduct: '',
+        price: '',
+        description: '',
+        state: false
     });
 
+    // extraer los valores del state
+    const { nameProduct, price, description, state } = producto;
+    let history = useHistory();
 
-    // cuando el componente carga
+    // obtener el ID
+    const { id } = useParams();
+
+//     // consultar la api para traer el producto a editar
+//     const consultarAPI = id => {
+//         getProduct(id)
+//             .then(response => {
+//                 guardarProducto(response.data);
+//                 console.log(response.data);
+//             })
+//             .catch(e => {
+//                 console.log(e);
+//             });
+//     }
+
+//     // cuando el componente carga
+//     useEffect(() => {
+//         consultarAPI(id);
+//     }, [id])
+
+//     // leer los datos del formulario
+//     const leerInformacionProducto = (e) => {
+//         guardarProducto({
+//             // obtener una copia del state y agregar el nuevo
+//             ...producto,
+//             [e.target.name]: e.target.value
+//         });
+//     }
+
+//     // Edita un Producto en la base de datos
+//     const editarEstado = estado => {
+//         var p = {
+//             id: producto._id,
+//             nameProduct: producto.nameProduct,
+//             price: producto.price,
+//             description: producto.description,
+//             state: estado
+//         };
+
+//         editProduct(producto._id, p).then(response => {
+//                 guardarProducto({ ...producto, state: estado });
+//                 console.log(response.data);
+//             })
+//             .catch(e => {
+//                     console.log(e);
+//             });
+//     };
+
+//     const editarProducto = () => {
+//         editProduct(producto).then(response => {
+//             console.log(response.data);
+//         })
+//         .catch(e => {
+//             console.log(e);
+//         });
+//         history.push('/productos');
+//     };
+
     useEffect(() => {
-         // consultar la api para traer el producto a editar
-        const consultarAPI = async () => {
-            const productoConsulta = await clienteAxios.get(`/productos/${id}`);
-            guardarProducto(productoConsulta.data);
-        }
-
-        consultarAPI();
+        loadProductData();
     }, [])
 
-    // Edita un Producto en la base de datos
-    const editarProducto = async e => {
-        e.preventDefault();
-
-        // crear un formdata
-        const formData = new FormData();
-        formData.append('nombre', producto.nombre);
-        formData.append('precio', producto.precio);
-        formData.append('descripcion', producto.descripcion);
-
-        // almacenarlo en la BD
-        try {
-            const res = await clienteAxios.put(`/productos/${id}`, formData, {
-                headers: {
-                    'Content-Type' : 'multipart/form-data'
-                }
-            } );
-
-            // Lanzar una alerta
-            if(res.status === 200) {
-                Swal.fire(
-                    'Editado Correctamente',
-                    res.data.mensaje,
-                    'success'
-                )
-            }
-
-
-        } catch (error) {
-            console.log(error);
-            // lanzar alerta
-            Swal.fire({
-                type:'error',
-                title: 'Hubo un error',
-                text: 'Vuelva a intentarlo'
-            })
-        }
+    const loadProductData = async () => {
+        let response = await getProduct(id);
+        guardarProducto(response.data.data);
     }
 
-    // leer los datos del formulario
-    const leerInformacionProducto = e => {
-        guardarProducto({
-            // obtener una copia del state y agregar el nuevo
-            ...producto,
-            [e.target.name] : e.target.value
-        })
+    const leerInformacionProducto = (e) => {
+        guardarProducto({ ...producto, [e.target.name]: e.target.value });
     }
 
+    const editarEstado = (state) => {
+        guardarProducto({ ...producto, "estado": state });
+    }
 
-    // extraer los valores del state
-    const { nombre, precio, descripcion } = producto;
-    
-    return (
-        <Fragment>
-            <div className="container">
-                <div className="card">
-                    <h5 className="card-header">Modificar producto</h5>
-                    <div className="card-body">
-                        <form onSubmit={editarProducto}>
-                            <div className="row">
-                                <div className="col-md-6 mb-3">
-                                    <label className="form-label" onChange={leerInformacionProducto}
-                        defaultValue={nombre}> Nombre producto </label>
-                                    <input type="text" className="form-control" />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label className="form-label" onChange={leerInformacionProducto}
-                        defaultValue={precio}>Valor unidad</label>
-                                    <input type="text" className="form-control" />
-                                </div>
+    const editarProducto = async () => {
+        await editProduct(producto);
+        history.push('/productos');
+    }
+
+return (
+    <Fragment>
+        <div className="container">
+            <div className="card">
+                <h5 className="card-header">Modificar producto</h5>
+                <div className="card-body">
+                    <form>
+                        <div className="row">
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label" > Nombre producto </label>
+                                <input onChange={(e) => leerInformacionProducto(e)} name="nameProduct" value={nameProduct}
+                                    type="text" className="form-control" />
                             </div>
-                            <div className="row">
-                                <div className="col-md-12 mb-3">
-                                    <label className="form-label" onChange={leerInformacionProducto}
-                        defaultValue={descripcion}>Descripcion producto</label>
-                                    <input type="textarea" className="form-control" />
-                                </div>
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label">Valor unidad</label>
+                                <input onChange={(e) => leerInformacionProducto(e)} name="price" value={price}
+                                    type="text"
+                                    className="form-control" />
                             </div>
-                            <div className="row">
-                                <div className="col-md-12 mb-3 form-check">
-                                    <input type="checkbox" className="form-check-input" />
-                                    <label className="form-check-label" onChange={leerInformacionProducto}>Disponible</label>
-                                </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12 mb-3">
+                                <label className="form-label">Descripcion producto</label>
+                                <input onChange={(e) => leerInformacionProducto(e)} name="description" value={description}
+                                    type="textarea" className="form-control" />
                             </div>
-                            <button type="submit" className="btn btn-primary">Guardar</button>
-                        </form>
-                    </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12 mb-3 form-check">
+                                <label className="form-check-label">Disponible</label>
+                                <select className="custom-select" id="formUsuarioEstado"
+                                    onChange={(e) => leerInformacionProducto(e)} value={state} name="state" required>
+                                    <option value='true'>Disponible</option>
+                                    <option value='false'>No disponible</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" className="btn btn-primary" onClick={() => editarProducto()} >Guardar</button>
+                    </form>
                 </div>
             </div>
-        </Fragment>
-    )
+        </div>
+    </Fragment>
+)
 }
 
-export default FormProducts
+export default EditProduct

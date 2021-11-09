@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getProducts, deleteProduct } from '../../services/ProductService';
 
-function TableProducts() {
+function ProductsList() {
+
+    const [products, setProducts] = useState([])
+
+    useEffect(() => {
+        getAllProducts();
+    }, [])
+
+    const getAllProducts = async () => {
+        let response = await getProducts();
+        setProducts(response.data.data);
+    }
+
+    const deleteProductData = async (id) => {
+        let callbackUser = window.confirm('¿Estás seguro de eliminar el producto?');
+        if (callbackUser) {
+            await deleteProduct(id);
+            getAllProducts();
+        }
+    }
+
     return (
         <div>
             <div className="container">
@@ -18,18 +39,26 @@ function TableProducts() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>001</td>
-                            <td>Buzo</td>
-                            <td>Buzo con capota, unicolor</td>
-                            <td>42900</td>
-                            <td>Disponible</td>
-                            <td className="text-center">
-                                <Link to={`/productos/editar/${1}`} className="link">
-                                    <button className="btn btn-success btn-sm" href="#!">Modificar</button>
-                                </Link>
-                            </td>
-                        </tr>
+                        {
+                            products.map(product => {
+                                return (
+                                    <tr key={product._id}>
+                                        <td>{product._id}</td>
+                                        <td>{product.nameProduct}</td>
+                                        <td>{product.description}</td>
+                                        <td>{product.price}</td>
+                                        <td>{product.state === true ? 'Disponible': 'No disponible'}</td>
+                                        <td className="text-center">
+                                            <Link to={`/productos/editar/${product._id}`} className="link">
+                                                <button className="btn btn-success btn-sm" href="#!" >Modificar</button>
+                                            </Link>
+                                            | 
+                                            <button className="btn btn-danger btn-sm" href="#!" onClick={() => deleteProductData(product._id)}>Eliminar</button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
                     </tbody>
                 </table>
             </div>
@@ -37,4 +66,4 @@ function TableProducts() {
     )
 }
 
-export default TableProducts
+export default ProductsList
