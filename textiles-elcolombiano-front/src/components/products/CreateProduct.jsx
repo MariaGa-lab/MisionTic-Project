@@ -1,6 +1,7 @@
 import React, {useState, Fragment} from 'react';
-import Swal from 'sweetalert2';
-import { addProduct } from '../../services/ProductService';
+import clienteAxios from '../../config/axios';
+//import Swal from 'sweetalert2';
+//import { addProduct } from '../../services/ProductService';
 import { useHistory } from 'react-router-dom';
 
 function CreateProduct() {
@@ -18,19 +19,26 @@ function CreateProduct() {
     let history = useHistory();
 
     // almacena el nuevo producto en la base de datos.
-    // const agregarProducto = async e => {
-    //     e.preventDefault();
+     const agregarProducto = async e => {
+         e.preventDefault();
 
-    //     // crear un formdata
-    //     const formData = new FormData();
-    //     formData.append('nameProduct', producto.nameProduct);
-    //     formData.append('price', producto.price);
-    //     formData.append('description', producto.description);
-    //     formData.append('state', producto.state);
+         // crear un formdata
+         const formData = new FormData();
+         formData.append('nameProduct', producto.nameProduct);
+         formData.append('price', producto.price);
+         formData.append('description', producto.description);
+         formData.append('state', producto.state);
 
-    //     // almacenarlo en la BD
-    //     try {
-    //         const res = await addProduct(formData);
+         // almacenarlo en la BD
+         try {
+            const res = await clienteAxios.post('/productos', formData, {
+                headers: {
+                    'Content-Type' : 'multipart/form-data'
+                }
+            } );
+        } catch (error) {
+            console.log(error);
+        }
 
     //         // Lanzar una alerta
     //         if(res.status === 200) {
@@ -51,12 +59,12 @@ function CreateProduct() {
     //             text: 'Vuelva a intentarlo'
     //         })
     //     }
-    // }
-
-    const agregarProducto = async () => {
-        await addProduct(producto);
-        history.push('/productos');
     }
+
+    //const agregarProducto = async () => {
+    //    await addProduct(producto);
+    //    history.push('/productos');
+    //}
 
     // leer los datos del formulario
     const leerInformacionProducto = e => {
@@ -75,7 +83,9 @@ function CreateProduct() {
                 <div className="card">
                     <h5 className="card-header">Registrar nuevo producto</h5>
                     <div className="card-body">
-                        <form>
+                        <form
+                            onSubmit={agregarProducto}
+                        >
                             <div className="row">
                                 <div className="col-md-6 mb-3">
                                     <label className="form-label">Nombre producto</label>
