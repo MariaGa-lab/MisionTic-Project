@@ -1,9 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { getUser, editUser } from '../../services/UsersService';
 
-function EditUser(props) {
+function EditUser() {
 
   // cliente = state, datosCliente = funcion para guardar el state
   const [cliente, datosCliente] = useState({
@@ -15,7 +14,7 @@ function EditUser(props) {
   const { fullName, email, role, state } = cliente;
   let history = useHistory();
 
-  // obtener el ID
+  // Obtener el ID
   const { id } = useParams();
 
   // Query a la API
@@ -23,11 +22,11 @@ function EditUser(props) {
     let clienteConsulta = await getUser(id);
     // colocar en el state
     datosCliente(clienteConsulta.data.data);
-  }
+  };  
 
   // useEffect, cuando el componente carga
   useEffect(() => {
-    consultarAPI();
+    consultarAPI(id);
   }, []);
 
   // leer los datos del formulario
@@ -41,8 +40,9 @@ function EditUser(props) {
   }
 
   // Envia una petición por axios para actualizar el cliente
-  const actualizarCliente = async () => {
-    await editUser(cliente);
+  const actualizarCliente = () => {
+    editUser(cliente);
+    alert("El usuario se ha modificado correctamente");
     history.push('/usuarios');
   }
 
@@ -57,7 +57,6 @@ function EditUser(props) {
     // return true o false
     return valido;
   }
-
 
   return (
     <Fragment>

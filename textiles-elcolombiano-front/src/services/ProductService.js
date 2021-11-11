@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const productsUrl = "http://localhost:3000/productos";
+const productsUrl = "http://localhost:4000/productos";
 
 export const getProduct = async (id) => {
     return await axios.get(`${productsUrl}/${id}`);
@@ -11,12 +11,7 @@ export const getProducts = async () => {
 }
 
 export const addProduct = async (product) => {
-    return await axios.post(`${productsUrl}/`, product, {
-        headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-    });
+    return await axios.post(`${productsUrl}/`, product);
 }
 
 export const deleteProduct = async (id) => {
@@ -24,10 +19,5 @@ export const deleteProduct = async (id) => {
 }
 
 export const editProduct = async (product) => {
-
-    return await axios.patch(`${productsUrl}/${product._id}`, product, {
-        headers: {
-            "Content-type": "application/json"
-        }
-    });
+    return await axios.put(`${productsUrl}/${product._id}`, product);
 }

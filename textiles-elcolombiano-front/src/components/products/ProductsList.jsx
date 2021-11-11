@@ -4,24 +4,24 @@ import { getProducts, deleteProduct } from '../../services/ProductService';
 
 function ProductsList() {
 
-    const [products, setProducts] = useState([])
+    const [productos, setProductos] = useState([]);
 
     useEffect(() => {
-        getAllProducts();
-    }, [])
+        mostrarProductos();
+    },[]);
 
-    const getAllProducts = async () => {
+    const mostrarProductos = async () => {
         let response = await getProducts();
-        setProducts(response.data.data);
-    }
+        setProductos(response.data.data);
+    };
 
-    const deleteProductData = async (id) => {
+    const borrarProductos = async (id) => {
         let callbackUser = window.confirm('¿Estás seguro de eliminar el producto?');
         if (callbackUser) {
             await deleteProduct(id);
-            getAllProducts();
+            mostrarProductos();
         }
-    }
+    };
 
     return (
         <div>
@@ -40,20 +40,20 @@ function ProductsList() {
                     </thead>
                     <tbody>
                         {
-                            products.map(product => {
+                            productos.map(producto => {
                                 return (
-                                    <tr key={product._id}>
-                                        <td>{product._id}</td>
-                                        <td>{product.nameProduct}</td>
-                                        <td>{product.description}</td>
-                                        <td>{product.price}</td>
-                                        <td>{product.state === true ? 'Disponible': 'No disponible'}</td>
+                                    <tr key={producto._id}>
+                                        <td>{producto._id}</td>
+                                        <td>{producto.nameProduct}</td>
+                                        <td>{producto.description}</td>
+                                        <td>{producto.price}</td>
+                                        <td>{producto.state === true ? 'Disponible': 'No disponible'}</td>
                                         <td className="text-center">
-                                            <Link to={`/productos/editar/${product._id}`} className="link">
+                                            <Link to={`/productos/editar/${producto._id}`} className="link">
                                                 <button className="btn btn-success btn-sm" href="#!" >Modificar</button>
                                             </Link>
                                             | 
-                                            <button className="btn btn-danger btn-sm" href="#!" onClick={() => deleteProductData(product._id)}>Eliminar</button>
+                                            <button className="btn btn-danger btn-sm" href="#!" onClick={() => borrarProductos(producto._id)}>Eliminar</button>
                                         </td>
                                     </tr>
                                 )

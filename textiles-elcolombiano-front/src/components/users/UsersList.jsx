@@ -2,14 +2,12 @@ import { useState, useEffect } from 'react';
 import { getUsers } from '../../services/UsersService';
 import { Link } from 'react-router-dom';
 
-
 export function UsersList() {
 
   const [users, setUsers] = useState([])
 
   useEffect(() => {
     getAllUsers();
-
   }, [])
 
   const getAllUsers = async () => {
@@ -34,16 +32,16 @@ export function UsersList() {
           </thead>
           <tbody>
             {
-              users.map(user => {
+              users.map(usuario => {
                 return (
-                  <tr key={user._id}>
-                    <td>{user._id}</td>
-                    <td>{user.fullName}</td>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
-                    <td>{user.state}</td>
+                  <tr key={usuario._id}>
+                    <td>{usuario._id}</td>
+                    <td>{usuario.fullName}</td>
+                    <td>{usuario.email}</td>
+                    <td>{usuario.role}</td>
+                    <td>{usuario.state}</td>
                     <td className="text-center">
-                      <Link to={`/usuarios/editar/${user._id}`} className="link">
+                      <Link to={`/usuarios/editar/${usuario._id}`} className="link">
                         <button className="btn btn-success btn-sm" href="#!">Modificar</button>
                       </Link>
                     </td>

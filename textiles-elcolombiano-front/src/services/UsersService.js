@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const usersUrl = "http://localhost:3000/usuarios";
+const usersUrl = "http://localhost:4000/usuarios";
 
 export const createUser = async (user) => {
     return await axios.post(`${usersUrl}/`, user);
@@ -19,5 +19,5 @@ export const deleteUser = async (id) => {
 }
 
 export const editUser = async (user) => {
-    return await axios.put(`${usersUrl}/${user._id}`, user );
+    return await axios.put(`${usersUrl}/${user._id}`, user);
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const salesUrl = "http://localhost:3000/ventas";
+const salesUrl = "http://localhost:4000/ventas";
 
 export const getSale = async (id) => {
     return await axios.get(`${salesUrl}/${id}`);
