@@ -28,7 +28,7 @@ const SaleSchema = Schema({
     },
     saleDate: {
         type: Date,
-        default: Date.now
+        default: Date
     },
     totalPrice: {
         type: Number,

@@ -1,5 +1,6 @@
 module.exports = {
+    authRouter: require('./auth.router'),
     productsRouter: require('./products.router'),
-    usersRouter: require('./users.router'),
-    salesRouter: require('./sales.router')
+    salesRouter: require('./sales.router'),
+    usersRouter: require('./users.router')   
 }

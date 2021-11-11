@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+require('dotenv').config();
 
-const URI =  'mongodb://localhost/dbtextiles';
+const MONGODB_User = process.env.DB_USER;
+const MONGODB_Password = process.env.DB_PASSWORD;
+const MONGODB_Host = process.env.DB_HOST;
 
-mongoose.connect(URI)
-  .then(db => console.log('Database is connected'))
-  .catch(error => console.error(error));
-
-module.exports = mongoose;
+module.exports = {
+  MONGODB_URI: `mongodb+srv://${MONGODB_User}:${MONGODB_Password}@${MONGODB_Host}`
+}
