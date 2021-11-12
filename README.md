@@ -1,6 +1,7 @@
 # Repositorio - Grupo 6 
 ## MisionTIC 2022 - UdeA
 ---
+
 Rama Development del proyecto.
 
 Integrantes del grupo:
@@ -11,6 +12,8 @@ Integrantes del grupo:
 
 Comandos para iniciar el BackEnd
 - npm i
-- npm start
 - npm run dev 
 
+Comandos para iniciar el FrontEnd
+- npm i
+- npm start
