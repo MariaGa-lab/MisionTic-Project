@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { getUser, editUser } from '../../services/UsersService';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function EditUser() {
-
+  const { user, isAuthenticated } = useAuth0();
   // cliente = state, datosCliente = funcion para guardar el state
   const [cliente, datosCliente] = useState({
     fullName: '',
@@ -22,7 +23,7 @@ function EditUser() {
     let clienteConsulta = await getUser(id);
     // colocar en el state
     datosCliente(clienteConsulta.data.data);
-  };  
+  };
 
   // useEffect, cuando el componente carga
   useEffect(() => {
@@ -59,63 +60,65 @@ function EditUser() {
   }
 
   return (
-    <Fragment>
-      <div className="container">
-        <div className="card">
-          <h5 className="card-header">Modificar usuario</h5>
-          <div className="card-body">
-            <form onSubmit={actualizarCliente}>
-              <div className="form-row">
-                <div className="col-md-6 mb-3">
-                  <label for="formUsuarioNombre" >Nombre</label>
-                  <input onChange={(e) => actualizarState(e)} value={fullName} name="fullName"
-                    type="text"
-                    className="form-control"
-                    id="formUsuarioNombre"
-                  />
+    isAuthenticated && (
+      <Fragment>
+        <div className="container">
+          <div className="card">
+            <h5 className="card-header">Modificar usuario</h5>
+            <div className="card-body">
+              <form onSubmit={actualizarCliente}>
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label for="formUsuarioNombre" >Nombre</label>
+                    <input onChange={(e) => actualizarState(e)} value={fullName} name="fullName"
+                      type="text"
+                      className="form-control"
+                      id="formUsuarioNombre"
+                    />
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label for="formUsuarioEmail" >Correo Electrónico</label>
+                    <input onChange={(e) => actualizarState(e)} value={email} name="email"
+                      type="email"
+                      className="form-control"
+                      id="formUsuarioEmail"
+                    />
+                  </div>
                 </div>
-                <div className="col-md-6 mb-3">
-                  <label for="formUsuarioEmail" >Correo Electrónico</label>
-                  <input onChange={(e) => actualizarState(e)} value={email} name="email"
-                    type="email"
-                    className="form-control"
-                    id="formUsuarioEmail"
-                  />
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label for="formUsuarioRol" >Rol</label>
+                    <select className="form-select" id="formUsuarioRol"
+                      onChange={(e) => actualizarState(e)} value={role} name="role" required>
+                      <option selected>Seleccione un rol</option>
+                      <option value="Administrador">Administrador</option>
+                      <option value="Vendedor">Vendedor</option>
+                    </select>
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label for="formUsuarioEstado">Estado</label>
+                    <select className="form-select" id="formUsuarioEstado"
+                      onChange={(e) => actualizarState(e)} value={state} name="state" required>
+                      <option selected>Seleccione un estado</option>
+                      <option value="Pendiente">Pendiente</option>
+                      <option value="Autorizado">Autorizado</option>
+                      <option value="No autorizado">No autorizado</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="form-row">
-                <div className="col-md-6 mb-3">
-                  <label for="formUsuarioRol" >Rol</label>
-                  <select className="custom-select" id="formUsuarioRol"
-                    onChange={(e) => actualizarState(e)} value={role} name="role" required>
-                    <option selected>Seleccione un rol</option>
-                    <option value="Administrador">Administrador</option>
-                    <option value="Vendedor">Vendedor</option>
-                  </select>
+                <br />
+                <div className="text-center">
+                  <button className="btn btn-primary" type="submit" disabled={validarCliente()} onClick={() => actualizarCliente()}>
+                    Guardar
+                  </button>
                 </div>
-                <div className="col-md-6 mb-3">
-                  <label for="formUsuarioEstado">Estado</label>
-                  <select className="custom-select" id="formUsuarioEstado"
-                    onChange={(e) => actualizarState(e)} value={state} name="state" required>
-                    <option selected>Seleccione un estado</option>
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Autorizado">Autorizado</option>
-                    <option value="No autorizado">No autorizado</option>
-                  </select>
-                </div>
-              </div>
-              <br />
-              <div className="text-center">
-                <button className="btn btn-primary" type="submit" disabled={validarCliente()} onClick={() => actualizarCliente()}>
-                  Guardar
-                </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </Fragment>
+      </Fragment>
+    )
   );
-}
+};
 
 export default EditUser;

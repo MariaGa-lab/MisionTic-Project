@@ -25,23 +25,23 @@ function Ventanas(props) {
             <Switch>
               <Route path={"/" + props.objeto + "/buscar"}>
                 {(props.objeto === "ventas" && <Search title={"Búsqueda " + props.objeto} busqueda1="Código de venta" busqueda2="Documento cliente" busqueda3="Nombre cliente" />) ||
-                  (props.objeto === "productos" && <Search title={"Búsqueda " + props.objeto} busqueda1="Código de producto" busqueda2="Producto" busqueda3="Descripción de producto" />)}
+                  (props.objeto === "productos" && <Search title={"Búsqueda " + props.objeto} busqueda1="Código de producto" busqueda2="Nombre Producto" busqueda3="Descripción de producto" />)}
               </Route>
               <Route path={"/" + props.objeto + "/registrar"}>
-                {(props.objeto === "ventas" && <CreateSale />) || (props.objeto === "productos" && <CreateProduct />) }
+                {(props.objeto === "ventas" && <CreateSale />) || (props.objeto === "productos" && <CreateProduct />)}
               </Route>
               <Route path={"/" + props.objeto + "/editar/:id"}>
-                {(props.objeto === "ventas" && <EditSale />) || (props.objeto === "productos" && <EditProduct />) }
+                {(props.objeto === "ventas" && <EditSale />) || (props.objeto === "productos" && <EditProduct />)}
               </Route>
               <Route path={"/" + props.objeto}>
-                {(props.objeto === "ventas" && <SalesList />) || (props.objeto === "productos" && <ProductsList />) }
+                {(props.objeto === "ventas" && <SalesList />) || (props.objeto === "productos" && <ProductsList />)}
               </Route>
             </Switch>
           </div>
         </div>
       </Router>
     </div>
-  )
-}
+  );
+};
 
-export default Ventanas
+export default Ventanas;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { editProduct, getProduct } from '../../services/ProductService';
 import { useHistory, useParams } from 'react-router-dom';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function EditProduct() {
-
+    const { user, isAuthenticated } = useAuth0();
     const [producto, guardarProducto] = useState({
         nameProduct: '',
         price: '',
@@ -43,49 +44,51 @@ function EditProduct() {
     }
 
     return (
-        <Fragment>
-            <div className="container">
-                <div className="card">
-                    <h5 className="card-header">Modificar producto</h5>
-                    <div className="card-body">
-                        <form>
-                            <div className="row">
-                                <div className="col-md-6 mb-3">
-                                    <label className="form-label" > Nombre producto </label>
-                                    <input onChange={(e) => leerInformacionProducto(e)} name="nameProduct" value={nameProduct}
-                                        type="text" className="form-control" />
+        isAuthenticated && (
+            <Fragment>
+                <div className="container">
+                    <div className="card">
+                        <h5 className="card-header">Modificar producto</h5>
+                        <div className="card-body">
+                            <form>
+                                <div className="row">
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label" > Nombre producto </label>
+                                        <input onChange={(e) => leerInformacionProducto(e)} name="nameProduct" value={nameProduct}
+                                            type="text" className="form-control" />
+                                    </div>
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label">Valor unidad</label>
+                                        <input onChange={(e) => leerInformacionProducto(e)} name="price" value={price}
+                                            type="text"
+                                            className="form-control" />
+                                    </div>
                                 </div>
-                                <div className="col-md-6 mb-3">
-                                    <label className="form-label">Valor unidad</label>
-                                    <input onChange={(e) => leerInformacionProducto(e)} name="price" value={price}
-                                        type="text"
-                                        className="form-control" />
+                                <div className="row">
+                                    <div className="col-md-12 mb-3">
+                                        <label className="form-label">Descripcion producto</label>
+                                        <input onChange={(e) => leerInformacionProducto(e)} name="description" value={description}
+                                            type="textarea" className="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12 mb-3">
-                                    <label className="form-label">Descripcion producto</label>
-                                    <input onChange={(e) => leerInformacionProducto(e)} name="description" value={description}
-                                        type="textarea" className="form-control" />
+                                <div className="row">
+                                    <div className="col-md-12 mb-3 form-check">
+                                        <label className="form-check-label">Disponible</label>
+                                        <select className="form-select" id="formUsuarioEstado"
+                                            onChange={(e) => leerInformacionProducto(e)} value={state} name="state" required>
+                                            <option value='true'>Disponible</option>
+                                            <option value='false'>No disponible</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12 mb-3 form-check">
-                                    <label className="form-check-label">Disponible</label>
-                                    <select className="custom-select" id="formUsuarioEstado"
-                                        onChange={(e) => leerInformacionProducto(e)} value={state} name="state" required>
-                                        <option value='true'>Disponible</option>
-                                        <option value='false'>No disponible</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button type="submit" className="btn btn-primary" onClick={() => editarProducto()} >Guardar</button>
-                        </form>
+                                <button type="submit" className="btn btn-primary" onClick={() => editarProducto()} >Guardar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </Fragment>
-    )
-}
+            </Fragment>
+        )
+    );
+};
 
-export default EditProduct
+export default EditProduct;
